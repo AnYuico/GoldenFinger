@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4CFFF463-0877-4E80-8F6C-3A9F043B1350}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameToolOrchestrator.Core", "src\GameToolOrchestrator.Core\GameToolOrchestrator.Core.csproj", "{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameToolOrchestrator.Infrastructure", "src\GameToolOrchestrator.Infrastructure\GameToolOrchestrator.Infrastructure.csproj", "{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameToolOrchestrator.ConsoleRunner", "src\GameToolOrchestrator.ConsoleRunner\GameToolOrchestrator.ConsoleRunner.csproj", "{9D80E519-7CA0-4509-831B-08DD527C2B6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C711386A-C687-4F21-93B7-81DD085A1EE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameToolOrchestrator.Tests", "tests\GameToolOrchestrator.Tests\GameToolOrchestrator.Tests.csproj", "{E715D09C-7D83-4E1F-B745-1403E146DBBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameToolOrchestrator.Wpf", "src\GameToolOrchestrator.Wpf\GameToolOrchestrator.Wpf.csproj", "{1169AD28-4493-43B2-8361-DC8601293A1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D80E519-7CA0-4509-831B-08DD527C2B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D80E519-7CA0-4509-831B-08DD527C2B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D80E519-7CA0-4509-831B-08DD527C2B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D80E519-7CA0-4509-831B-08DD527C2B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E715D09C-7D83-4E1F-B745-1403E146DBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E715D09C-7D83-4E1F-B745-1403E146DBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E715D09C-7D83-4E1F-B745-1403E146DBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E715D09C-7D83-4E1F-B745-1403E146DBBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1169AD28-4493-43B2-8361-DC8601293A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1169AD28-4493-43B2-8361-DC8601293A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1169AD28-4493-43B2-8361-DC8601293A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1169AD28-4493-43B2-8361-DC8601293A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0BA54AA2-8AC7-46A5-9F87-8D0EA11BDBAE} = {4CFFF463-0877-4E80-8F6C-3A9F043B1350}
+		{1B8B78D2-64A9-49B5-9C58-2C0D9F31D2BE} = {4CFFF463-0877-4E80-8F6C-3A9F043B1350}
+		{9D80E519-7CA0-4509-831B-08DD527C2B6A} = {4CFFF463-0877-4E80-8F6C-3A9F043B1350}
+		{E715D09C-7D83-4E1F-B745-1403E146DBBC} = {C711386A-C687-4F21-93B7-81DD085A1EE3}
+		{1169AD28-4493-43B2-8361-DC8601293A1A} = {4CFFF463-0877-4E80-8F6C-3A9F043B1350}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,82 @@
+{
+  "version": "1.5",
+  "execution": {
+    "stopOnFailure": true,
+    "killOnTimeout": false,
+    "waitForExit": true,
+    "defaultActionTimeoutSeconds": 30,
+    "stepTimeoutSeconds": 0,
+    "processExitTimeoutSeconds": 0,
+    "logDirectory": "logs",
+    "screenshotDirectory": "screenshots"
+  },
+  "tools": [
+    {
+      "id": "bettergi",
+      "name": "BetterGI",
+      "type": "generic-ui",
+      "executablePath": "D:\\Tools\\BetterGI\\BetterGI.exe",
+      "workingDirectory": "D:\\Tools\\BetterGI",
+      "arguments": "",
+      "requiresAdministrator": false,
+      "launchTimeoutSeconds": 30,
+      "taskTimeoutMinutes": 180,
+      "window": {
+        "title": "BetterGI",
+        "titleMatchMode": "contains",
+        "className": "",
+        "automationId": "",
+        "processName": "BetterGI",
+        "waitTimeoutSeconds": 30
+      }
+    }
+  ],
+  "taskPlans": [
+    {
+      "id": "bettergi-daily",
+      "name": "BetterGI daily workflow",
+      "steps": [
+        {
+          "id": "run-bettergi",
+          "name": "Launch BetterGI and click start",
+          "toolId": "bettergi",
+          "order": 1,
+          "enabled": true,
+          "completionStrategy": "processExit",
+          "waitForExit": false,
+          "timeoutMinutes": 180,
+          "actions": [
+            {
+              "id": "wait-bettergi-window",
+              "type": "waitWindow",
+              "name": "Wait for BetterGI window",
+              "order": 1,
+              "enabled": true,
+              "titleContains": "BetterGI",
+              "timeoutSeconds": 30
+            },
+            {
+              "id": "click-start-button",
+              "type": "clickButton",
+              "name": "Click start button",
+              "order": 2,
+              "enabled": true,
+              "windowTitleContains": "BetterGI",
+              "nameContains": "\u5f00\u59cb",
+              "controlType": "Button",
+              "timeoutSeconds": 10
+            },
+            {
+              "id": "wait-bettergi-exit",
+              "type": "waitProcessExit",
+              "name": "Wait for BetterGI to exit",
+              "order": 3,
+              "enabled": true,
+              "timeoutMinutes": 180
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

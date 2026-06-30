@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+.idea/
+.vscode/
+.dotnet_home/
+.nuget/
+TestResults/
+logs/
+screenshots/
