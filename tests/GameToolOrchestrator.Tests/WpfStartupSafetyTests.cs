@@ -68,6 +68,82 @@ public sealed class WpfStartupSafetyTests
     }
 
     [Fact]
+    public void DefaultConfigResolver_PrioritizesBaseDirectoryBeforeCurrentDirectory()
+    {
+        var baseDirectory = CreateTempDirectory();
+        var currentDirectory = CreateTempDirectory();
+        var resolver = new DefaultConfigResolver([baseDirectory, currentDirectory]);
+
+        var result = resolver.FindDefaultConfig();
+
+        Assert.Equal(Path.Combine(baseDirectory, "config.json"), result.CandidatePaths[0]);
+        Assert.Equal(Path.Combine(baseDirectory, "sample-config.json"), result.CandidatePaths[1]);
+        Assert.Equal(Path.Combine(currentDirectory, "config.json"), result.CandidatePaths[2]);
+        Assert.Equal(Path.Combine(currentDirectory, "sample-config.json"), result.CandidatePaths[3]);
+    }
+
+    [Fact]
+    public void DefaultConfigResolver_DefaultRootsIncludeAppBaseAndCurrentDirectory()
+    {
+        var resolver = new DefaultConfigResolver();
+
+        var result = resolver.FindDefaultConfig();
+
+        Assert.Equal(Path.Combine(AppContext.BaseDirectory, "config.json"), result.CandidatePaths[0]);
+        Assert.Equal(Path.Combine(AppContext.BaseDirectory, "sample-config.json"), result.CandidatePaths[1]);
+        Assert.Contains(Path.Combine(Environment.CurrentDirectory, "config.json"), result.CandidatePaths);
+        Assert.Contains(Path.Combine(Environment.CurrentDirectory, "sample-config.json"), result.CandidatePaths);
+    }
+
+    [Fact]
+    public void DefaultConfigResolver_WhenConfigMissing_ReturnsCandidatesWithoutThrowing()
+    {
+        var publishDirectory = CreateTempDirectory();
+        var resolver = new DefaultConfigResolver([publishDirectory]);
+
+        var result = resolver.FindDefaultConfig();
+
+        Assert.Null(result.FoundPath);
+        Assert.NotEmpty(result.CandidatePaths);
+    }
+
+    [Fact]
+    public void DefaultConfigResolver_CanFindSampleConfigBesidePublishedExe()
+    {
+        var publishDirectory = CreateTempDirectory();
+        var sampleConfig = Path.Combine(publishDirectory, "sample-config.json");
+        File.WriteAllText(sampleConfig, "{}");
+        var resolver = new DefaultConfigResolver([publishDirectory]);
+
+        var result = resolver.FindDefaultConfig();
+
+        Assert.Equal(sampleConfig, result.FoundPath);
+    }
+
+    [Fact]
+    public void DefaultConfigResolver_ExplicitPublishRootsDoNotDependOnSourceDirectories()
+    {
+        var publishDirectory = CreateTempDirectory();
+        var currentDirectory = CreateTempDirectory();
+        var resolver = new DefaultConfigResolver([publishDirectory, currentDirectory]);
+
+        var result = resolver.FindDefaultConfig();
+
+        Assert.DoesNotContain(result.CandidatePaths, path =>
+            path.Contains($"{Path.DirectorySeparatorChar}src{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains($"{Path.DirectorySeparatorChar}tests{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
+    public void AssemblyAppVersionProvider_ReturnsNonEmptyVersion()
+    {
+        var provider = new AssemblyAppVersionProvider();
+
+        Assert.False(string.IsNullOrWhiteSpace(provider.Version));
+        Assert.Contains("0.3.2", provider.Version);
+    }
+
+    [Fact]
     public void WpfStartupLogger_CreatesLogsDirectory()
     {
         var tempRoot = CreateTempDirectory();

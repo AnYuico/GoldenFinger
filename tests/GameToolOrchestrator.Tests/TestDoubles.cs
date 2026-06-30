@@ -294,6 +294,11 @@ internal sealed class FakeFolderLauncherService : IFolderLauncherService
     }
 }
 
+internal sealed class FakeAppVersionProvider : IAppVersionProvider
+{
+    public string Version { get; init; } = "9.8.7-test";
+}
+
 internal sealed class InMemoryConfigRepository : IConfigRepository
 {
     public OrchestratorConfig Config { get; set; } = new();

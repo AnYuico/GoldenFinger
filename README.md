@@ -2,6 +2,8 @@
 
 GameToolOrchestrator is a local Windows task orchestrator. The current MVP can read JSON configuration, launch local `.exe` tools in order, run basic UI Automation actions through FlaUI, wait for process exit, and write diagnostic logs.
 
+Current version: `0.3.2`.
+
 ## Structure
 
 ```text
@@ -31,6 +33,8 @@ dotnet run --project src\GameToolOrchestrator.ConsoleRunner -- --config sample-c
 Exit codes: `0` succeeded, `1` failed, `2` cancelled, `3` timed out.
 
 ## Run WPF
+
+From source:
 
 ```powershell
 dotnet run --project src\GameToolOrchestrator.Wpf
@@ -112,6 +116,84 @@ WPF feedback tools:
 - Task completion writes an execution summary with step counts, elapsed time, cancelled state, and the first failing step when present.
 
 For a complete real-tool checklist, see [docs/manual-verification.md](docs/manual-verification.md).
+
+## Publish Windows Builds
+
+The release scripts create self-contained Windows packages under `artifacts/publish/`. The published folders are ignored by Git.
+
+Publish WPF:
+
+```powershell
+.\scripts\publish-wpf.ps1
+```
+
+Publish ConsoleRunner:
+
+```powershell
+.\scripts\publish-console.ps1
+```
+
+Useful script parameters:
+
+- `-Runtime win-x64`: runtime identifier. Default is `win-x64`.
+- `-Configuration Release`: build configuration. Default is `Release`.
+- `-SelfContained $true`: publish with the .NET runtime included. Default is `$true`.
+- `-SkipTests`: skip the test step when you only need a quick local publish.
+
+The WPF script publishes to:
+
+```text
+artifacts\publish\GameToolOrchestrator.Wpf-win-x64
+```
+
+The ConsoleRunner script publishes to:
+
+```text
+artifacts\publish\GameToolOrchestrator.ConsoleRunner-win-x64
+```
+
+Each publish folder includes:
+
+- The executable, such as `GameToolOrchestrator.Wpf.exe`.
+- `README.md`.
+- `sample-config.json`.
+- `docs/manual-verification.md`.
+- `docs/release-checklist.md`.
+- `logs/`.
+
+Run the published WPF app by double-clicking `GameToolOrchestrator.Wpf.exe` or from PowerShell:
+
+```powershell
+.\artifacts\publish\GameToolOrchestrator.Wpf-win-x64\GameToolOrchestrator.Wpf.exe
+```
+
+Run the published ConsoleRunner:
+
+```powershell
+.\artifacts\publish\GameToolOrchestrator.ConsoleRunner-win-x64\GameToolOrchestrator.ConsoleRunner.exe inspect-windows
+```
+
+Published config file behavior:
+
+- Put `config.json` beside the published exe for your real local setup.
+- `sample-config.json` is copied beside the exe and can be used as a starting point.
+- WPF checks the exe directory first, then the current working directory.
+- If neither `config.json` nor `sample-config.json` is found, WPF opens safely with empty lists and logs the attempted paths.
+
+Published logs:
+
+- WPF startup diagnostics: `logs/wpf-startup.log` beside the working directory used by the app.
+- WPF crash diagnostics: `logs/wpf-crash.log`.
+- Execution logs: `logs/`.
+
+Common publish issues:
+
+- Config not found: copy `config.json` or `sample-config.json` into the same folder as `GameToolOrchestrator.Wpf.exe`, then restart.
+- Cannot control an elevated target program: run GameToolOrchestrator at the same privilege level as the target tool.
+- Windows blocks an unknown publisher app: unblock the downloaded/packaged file in Windows file properties or allow it through SmartScreen only if you trust the build.
+- First launch is slow: single-file self-contained apps can spend extra time extracting native libraries on first startup.
+
+For release validation, see [docs/release-checklist.md](docs/release-checklist.md).
 
 ## WPF Startup Troubleshooting
 

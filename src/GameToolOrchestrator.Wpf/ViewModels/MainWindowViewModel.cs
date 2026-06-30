@@ -21,6 +21,7 @@ public sealed class MainWindowViewModel : ObservableObject
     private readonly IUserConfirmationService? _confirmationService;
     private readonly IClipboardService? _clipboardService;
     private readonly IFolderLauncherService? _folderLauncherService;
+    private readonly IAppVersionProvider _appVersionProvider;
     private readonly string _logsDirectory;
     private readonly SynchronizationContext? _synchronizationContext;
     private OrchestratorConfig? _config;
@@ -51,6 +52,7 @@ public sealed class MainWindowViewModel : ObservableObject
         IClipboardService? clipboardService = null,
         IFolderLauncherService? folderLauncherService = null,
         IConfigMutationService? mutationService = null,
+        IAppVersionProvider? appVersionProvider = null,
         string? logsDirectory = null)
     {
         _configRepository = configRepository;
@@ -61,6 +63,7 @@ public sealed class MainWindowViewModel : ObservableObject
         _confirmationService = confirmationService;
         _clipboardService = clipboardService;
         _folderLauncherService = folderLauncherService;
+        _appVersionProvider = appVersionProvider ?? new AssemblyAppVersionProvider();
         _logsDirectory = Path.GetFullPath(logsDirectory ?? "logs");
         _synchronizationContext = SynchronizationContext.Current;
 
@@ -655,7 +658,7 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public string BuildDiagnosticInfo()
     {
-        var version = typeof(MainWindowViewModel).Assembly.GetName().Version?.ToString() ?? "<unknown>";
+        var version = _appVersionProvider.Version;
         var builder = new StringBuilder();
 
         builder.AppendLine("GameToolOrchestrator diagnostics");

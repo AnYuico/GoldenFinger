@@ -831,9 +831,11 @@ public sealed class WpfViewModelTests
     public async Task CopyDiagnostics_IncludesCurrentContextAndLogs()
     {
         var clipboard = new FakeClipboardService();
+        var versionProvider = new FakeAppVersionProvider { Version = "0.3.2-test" };
         var viewModel = CreateViewModel(
             new InMemoryConfigRepository { Config = CreateConfig() },
-            clipboardService: clipboard);
+            clipboardService: clipboard,
+            appVersionProvider: versionProvider);
         viewModel.ConfigPath = "config.json";
         await viewModel.LoadConfigAsync();
         viewModel.SelectedAction = viewModel.Actions[1];
@@ -842,6 +844,7 @@ public sealed class WpfViewModelTests
         viewModel.CopyDiagnostics();
 
         Assert.Equal(1, clipboard.CopyCount);
+        Assert.Contains("Version: 0.3.2-test", clipboard.LastText);
         Assert.Contains("ConfigPath: config.json", clipboard.LastText);
         Assert.Contains("TaskPlan: daily / Daily", clipboard.LastText);
         Assert.Contains("Step: run-bettergi / toolId=bettergi / toolName=BetterGI", clipboard.LastText);
@@ -1028,6 +1031,7 @@ public sealed class WpfViewModelTests
         IUserConfirmationService? confirmationService = null,
         IClipboardService? clipboardService = null,
         IFolderLauncherService? folderLauncherService = null,
+        IAppVersionProvider? appVersionProvider = null,
         string? logsDirectory = null)
     {
         return new MainWindowViewModel(
@@ -1037,6 +1041,7 @@ public sealed class WpfViewModelTests
             confirmationService: confirmationService,
             clipboardService: clipboardService,
             folderLauncherService: folderLauncherService,
+            appVersionProvider: appVersionProvider,
             logsDirectory: logsDirectory);
     }
 
